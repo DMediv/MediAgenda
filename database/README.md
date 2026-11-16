@@ -1,0 +1,1 @@
+Script SQL, diagrama E-R y diccionario de datos

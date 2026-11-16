@@ -1,0 +1,17 @@
+# Android Studio / Gradle (archivos de cada computadora)
+*.iml
+.gradle/
+/.idea/
+/local.properties
+/build
+/app/build
+/.kotlin
+/captures
+.DS_Store
+
+# Llaves de firma (Fase 5)
+*.jks
+*.keystore
+
+# API: credenciales reales de la base de datos
+api/config/conexion.php
