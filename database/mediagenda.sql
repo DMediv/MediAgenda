@@ -1,4 +1,23 @@
-
+-- =====================================================================
+--  MediAgenda (app móvil) — Script de la base de datos
+--  Punto 2.1 de la bitácora · Equipo 6
+--
+--  Motor: InnoDB · Juego de caracteres: utf8mb4_general_ci
+--  Compatible con MySQL 8.0.16+ y MariaDB 10.4+ (Hostinger)
+--
+--  Cómo importarlo en Hostinger:
+--    1. hPanel → Bases de datos → Bases de datos MySQL: crear la base y su usuario.
+--    2. Abrir phpMyAdmin, seleccionar la base (u906011863_MediAgenda) a la izquierda.
+--    3. Pestaña "Importar" → elegir este archivo → "Importar".
+--  El script NO crea la base de datos porque Hostinger la crea desde hPanel.
+--
+--  Contraseñas de prueba (guardadas con password_hash de PHP / bcrypt):
+--    Médicos  → Medico123
+--    Paciente → Paciente123
+--
+--  17/11/2026: las especialidades se alinean con la guía de estilos y Figma
+--  (Medicina interna, Pediatría, Cirugía y Traumatología).
+-- =====================================================================
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
@@ -38,7 +57,7 @@ CREATE TABLE usuario (
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
 
--- Datos personales y de contacto del paciente
+-- Datos personales y de contacto del paciente (RF-01 pasos 1 y 2).
 CREATE TABLE paciente (
     id                INT AUTO_INCREMENT PRIMARY KEY,
     id_usuario        INT          NOT NULL,
@@ -81,7 +100,7 @@ CREATE TABLE historial_medico (
 
 
 -- =====================================================================
---  2. CATÁLOGOS
+--  2. CATÁLOGOS (la app solo los lee, RNF-22)
 -- =====================================================================
 
 CREATE TABLE especialidad (
@@ -224,7 +243,8 @@ CREATE TABLE codigo_recuperacion (
 
 -- Tokens de sesión que la app envía en cada petición (RNF-03, RNF-04).
 -- token = bin2hex(random_bytes(32)) en PHP → 64 caracteres.
--- fecha_expiracion queda en NULL mientras no se defina la duración (pendiente P-12).
+-- fecha_expiracion = última petición + 30 minutos; la API la renueva en cada
+-- petición válida (P-12). Admite NULL, pero la API siempre le pone un valor.
 CREATE TABLE token_sesion (
     id                INT AUTO_INCREMENT PRIMARY KEY,
     id_usuario        INT        NOT NULL,
@@ -242,12 +262,12 @@ CREATE TABLE token_sesion (
 --  5. DATOS DE PRUEBA
 -- =====================================================================
 
+-- Las mismas especialidades de la guía de estilos y de Figma (fichas de P7).
 INSERT INTO especialidad (id, nombre) VALUES
-    (1, 'Medicina General'),
-    (2, 'Cardiología'),
-    (3, 'Pediatría'),
-    (4, 'Dermatología'),
-    (5, 'Ginecología');
+    (1, 'Medicina interna'),
+    (2, 'Pediatría'),
+    (3, 'Cirugía'),
+    (4, 'Traumatología');
 
 INSERT INTO consultorio (id, nombre, ubicacion) VALUES
     (1, 'Consultorio 101', 'Planta baja, pasillo A'),
@@ -265,12 +285,13 @@ INSERT INTO usuario (id, usuario, correo, contrasena, rol) VALUES
     (5, 'dra.mendoza',  'laura.mendoza@mediagenda.com',    '$2y$10$ChPoyM/iLheOWYwiuQp5eeJ2Ul3WXofrs67qibjoIWzUfZZwwyJue', 'medico'),
     (6, 'juan.perez',   'juan.perez@correo.com',           '$2y$10$9scwfQJoWzF7Ak.UqjSvFeOO8yqUPaepkR.uOF.vf5Orkp66jensO', 'paciente');
 
+-- Medicina interna tiene 2 médicos (Hernández y Mendoza); las demás, 1.
 INSERT INTO medico (id, id_usuario, nombres, apellidos, telefono, cedula_profesional, id_especialidad, id_consultorio) VALUES
     (1, 1, 'Carlos', 'Hernández Ruiz',  '5511111111', '12345601', 1, 1),
     (2, 2, 'Ana',    'López García',    '5522222222', '12345602', 2, 2),
     (3, 3, 'Jorge',  'Ramírez Soto',    '5533333333', '12345603', 3, 3),
     (4, 4, 'Sofía',  'Torres Vega',     '5544444444', '12345604', 4, 4),
-    (5, 5, 'Laura',  'Mendoza Castro',  '5555555555', '12345605', 5, 5);
+    (5, 5, 'Laura',  'Mendoza Castro',  '5555555555', '12345605', 1, 5);
 
 -- Horarios: lunes a viernes. Unos por la mañana y otros por la tarde.
 INSERT INTO horario_medico (id_medico, dia_semana, hora_inicio, hora_fin) VALUES
