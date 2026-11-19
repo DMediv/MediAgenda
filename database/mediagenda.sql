@@ -10,6 +10,8 @@
 --    2. Abrir phpMyAdmin, seleccionar la base (u906011863_MediAgenda) a la izquierda.
 --    3. Pestaña "Importar" → elegir este archivo → "Importar".
 --  El script NO crea la base de datos porque Hostinger la crea desde hPanel.
+--  Si la base ya está importada y tiene datos, usa en su lugar
+--  database/migracion_v9_modulo_medico.sql.
 --
 --  Contraseñas de prueba (guardadas con password_hash de PHP / bcrypt):
 --    Médicos  → Medico123
@@ -17,6 +19,10 @@
 --
 --  17/11/2026: las especialidades se alinean con la guía de estilos y Figma
 --  (Medicina interna, Pediatría, Cirugía y Traumatología).
+--  19/11/2026 (Requisitos v9): el médico ya no cambia el estado de las citas.
+--  La cita tiene 4 estados (Programada, Reprogramada, Atendida y Cancelada);
+--  «No asistió» se elimina y la API pasa a «Atendida» las citas activas
+--  cuya hora de fin ya pasó (RF-27).
 -- =====================================================================
 
 SET NAMES utf8mb4;
@@ -139,6 +145,8 @@ CREATE TABLE medico (
 
 
 -- Horario de atención por día. dia_semana: 1 = lunes … 7 = domingo.
+-- La app lo usa para calcular los horarios disponibles al agendar (RF-07);
+-- el médico ya no lo consulta desde la app (v9).
 CREATE TABLE horario_medico (
     id           INT AUTO_INCREMENT PRIMARY KEY,
     id_medico    INT     NOT NULL,
@@ -158,6 +166,9 @@ CREATE TABLE horario_medico (
 -- =====================================================================
 
 -- Cada cita ocupa un bloque de 30 minutos (hora termina en :00 o :30).
+-- Estados (v9): Programada, Reprogramada, Atendida y Cancelada.
+--   · Atendida la asigna la API automáticamente cuando termina la cita
+--     (fecha + hora + 30 min <= hora del servidor); nadie la marca a mano (RF-27).
 -- bloque_activo vale 1 si la cita está Programada o Reprogramada, y NULL en
 -- los demás estados. Como un UNIQUE permite varios NULL, las restricciones
 -- uq_cita_medico_bloque y uq_cita_paciente_bloque solo impiden dos citas
@@ -169,8 +180,9 @@ CREATE TABLE cita (
     id_consultorio  INT  NOT NULL COMMENT 'Consultorio donde se dio la cita',
     fecha           DATE NOT NULL,
     hora            TIME NOT NULL,
-    estado          ENUM('Programada', 'Atendida', 'No asistió', 'Cancelada', 'Reprogramada')
-                    NOT NULL DEFAULT 'Programada',
+    estado          ENUM('Programada', 'Reprogramada', 'Atendida', 'Cancelada')
+                    NOT NULL DEFAULT 'Programada'
+                    COMMENT 'Atendida la asigna la API al terminar la cita (RF-27)',
     fecha_creacion  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     bloque_activo   TINYINT AS (IF(estado IN ('Programada', 'Reprogramada'), 1, NULL)) STORED,
     CONSTRAINT uq_cita_medico_bloque   UNIQUE (id_medico, fecha, hora, bloque_activo),

@@ -2,8 +2,8 @@
 
 **Proyecto:** MediAgenda (app móvil) · Equipo 6
 **Base de datos:** MySQL / MariaDB en Hostinger · Motor InnoDB · `utf8mb4_general_ci`
-**Script:** `database/mediagenda.sql` · **Diagrama:** `database/diagrama_er.png`
-**Fecha:** 17/11/2026 (actualizado con la duración del token y la definición de «Reprogramada», Requisitos v8)
+**Script:** `database/mediagenda.sql` · **Migración v9:** `database/migracion_v9_modulo_medico.sql` · **Diagrama:** `database/diagrama_er.png`
+**Fecha:** 19/11/2026 (Requisitos v9: el médico solo consulta su agenda; la cita tiene 4 estados y «Atendida» se asigna automáticamente). Versión anterior: 17/11/2026.
 
 **Abreviaturas:** PK = llave primaria · FK = llave foránea · UQ = valor único · AI = autoincremental · NN = no nulo · CK = restricción CHECK
 
@@ -14,15 +14,17 @@
 | 1 | `usuario` | Usuarios | Cuenta para iniciar sesión, común a pacientes y médicos | RF-02, RF-03, RNF-01 |
 | 2 | `paciente` | Usuarios | Datos personales y de contacto del paciente | RF-01, RF-08 |
 | 3 | `historial_medico` | Usuarios | Información clínica capturada en el registro | RF-01, RF-17, RNF-24 |
-| 4 | `medico` | Usuarios | Datos del médico, su especialidad y consultorio | RF-06, RF-20 |
+| 4 | `medico` | Usuarios | Datos del médico, su especialidad y consultorio | RF-06, RF-15 |
 | 5 | `especialidad` | Catálogos | Especialidades médicas | RF-06 |
-| 6 | `consultorio` | Catálogos | Consultorios donde se dan las citas | RF-09, RF-20 |
-| 7 | `horario_medico` | Catálogos | Horario de atención del médico por día | RF-07, RF-20 |
-| 8 | `cita` | Citas | Citas entre paciente y médico | RF-09 a RF-16, RF-24 |
-| 9 | `cambio_cita` | Citas | Historial de cancelaciones y reprogramaciones | RF-14, RF-23, RF-25 |
+| 6 | `consultorio` | Catálogos | Consultorios donde se dan las citas | RF-09 |
+| 7 | `horario_medico` | Catálogos | Horario de atención del médico por día | RF-07, RF-24 |
+| 8 | `cita` | Citas | Citas entre paciente y médico | RF-09 a RF-15, RF-24, RF-27 |
+| 9 | `cambio_cita` | Citas | Historial de cancelaciones y reprogramaciones | RF-14, RF-25 |
 | 10 | `bitacora` | Seguridad | Registro de las operaciones de los usuarios | RF-26, RNF-20 |
 | 11 | `codigo_recuperacion` | Seguridad | Códigos para recuperar la contraseña | RF-05, RNF-21 |
 | 12 | `token_sesion` | Seguridad | Tokens que autentican las peticiones de la app | RNF-03, RNF-04 |
+
+> **Cambios v9:** no se elimina ninguna tabla ni relación. Solo cambia `cita.estado` (se quita «No asistió») y se actualizan las referencias a los requisitos eliminados (RF-16, RF-20 a RF-23). `horario_medico` se conserva porque la app lo usa para calcular los horarios disponibles al agendar.
 
 ## Relaciones
 
@@ -129,7 +131,7 @@ Catálogo de consultorios. La app solo lo lee.
 | `ubicacion` | VARCHAR(150) | No | — | — | Piso y pasillo donde se encuentra |
 
 ## 7. `horario_medico`
-Horario de atención del médico. Un registro por día y turno. La app solo lo lee.
+Horario de atención del médico. Un registro por día y turno. La app solo lo lee para calcular los horarios disponibles al agendar o reprogramar (RF-07, RF-24); desde la v9 el médico ya no lo consulta en la app.
 
 | Campo | Tipo | Nulo | Llave | Predeterminado | Descripción |
 |---|---|---|---|---|---|
@@ -152,7 +154,7 @@ Cita de 30 minutos entre un paciente y un médico.
 | `id_consultorio` | INT | No | FK | — | Consultorio donde se da la cita → `consultorio.id`. Se guarda para conservarlo aunque el médico cambie de consultorio |
 | `fecha` | DATE | No | — | — | Fecha de la cita |
 | `hora` | TIME | No | CK | — | Hora de inicio; solo en punto o y media (:00 o :30) |
-| `estado` | ENUM('Programada', 'Atendida', 'No asistió', 'Cancelada', 'Reprogramada') | No | — | 'Programada' | Estado actual de la cita. "Reprogramada" = cita activa que ya se movió una vez; no se puede volver a reprogramar |
+| `estado` | ENUM('Programada', 'Reprogramada', 'Atendida', 'Cancelada') | No | — | 'Programada' | Estado actual de la cita. «Reprogramada» = cita activa que ya se movió una vez; no se puede volver a reprogramar. «Atendida» la asigna la API automáticamente cuando termina la cita (`fecha` + `hora` + 30 min ≤ hora del servidor); nadie la asigna a mano (RF-27) |
 | `fecha_creacion` | DATETIME | No | — | CURRENT_TIMESTAMP | Fecha y hora en que se agendó |
 | `bloque_activo` | TINYINT (calculada) | Sí | — | — | Vale 1 si el estado es Programada o Reprogramada, y NULL en los demás. La calcula MySQL; no se escribe |
 
@@ -160,7 +162,7 @@ Cita de 30 minutos entre un paciente y un médico.
 - `uq_cita_medico_bloque` (`id_medico`, `fecha`, `hora`, `bloque_activo`): un médico no puede tener dos citas activas en el mismo bloque.
 - `uq_cita_paciente_bloque` (`id_paciente`, `fecha`, `hora`, `bloque_activo`): un paciente no puede tener dos citas activas a la misma hora.
 - `ck_cita_hora`: minutos en 0 o 30 y segundos en 0.
-- Índices `ix_cita_fecha` e `ix_cita_estado` para las búsquedas de agenda y reportes.
+- Índices `ix_cita_fecha` e `ix_cita_estado` para la agenda, los historiales y la actualización automática a «Atendida».
 
 ## 9. `cambio_cita`
 Historial de cambios. Guarda cada cancelación y reprogramación. Solo se inserta; nunca se modifica ni se borra.
@@ -178,10 +180,10 @@ Historial de cambios. Guarda cada cancelación y reprogramación. Solo se insert
 | `id_usuario` | INT | No | FK | — | Quién hizo el cambio → `usuario.id` |
 | `fecha_cambio` | DATETIME | No | — | CURRENT_TIMESTAMP | Cuándo se hizo el cambio |
 
-**Índice:** `ix_cambio_fecha` para los reportes y estadísticas por periodo.
+**Índice:** `ix_cambio_fecha` para consultar los cambios por fecha.
 
 ## 10. `bitacora`
-Registro de operaciones: inicio de sesión, registro, recuperación de contraseña, agendado, cancelación, reprogramación, cambio de estado, consulta de historial de otras especialidades y reportes. Solo se inserta; nunca se modifica ni se borra.
+Registro de operaciones: inicio de sesión, registro, recuperación de contraseña, agendado, cancelación, reprogramación y consulta del historial de otras especialidades. Desde la v9 ya no hay registros de cambio de estado ni de reportes. Solo se inserta; nunca se modifica ni se borra.
 
 | Campo | Tipo | Nulo | Llave | Predeterminado | Descripción |
 |---|---|---|---|---|---|
@@ -192,6 +194,8 @@ Registro de operaciones: inicio de sesión, registro, recuperación de contrase�
 | `fecha_hora` | DATETIME | No | — | CURRENT_TIMESTAMP | Fecha y hora de la operación |
 
 **Índice:** `ix_bitacora_fecha`.
+
+**Operaciones vigentes (v9):** `INICIO_SESION`, la del registro de cuenta, `RECUPERAR_CONTRASENA`, `AGENDAR_CITA`, `CANCELAR_CITA`, `REPROGRAMAR_CITA` y `CONSULTA_OTRAS_ESPECIALIDADES`. Se retiran `CAMBIAR_ESTADO_CITA`, `GENERAR_REPORTE` y `EXPORTAR_REPORTE_PDF`; los registros anteriores que las usen se conservan (RNF-20).
 
 ## 11. `codigo_recuperacion`
 Código de 6 dígitos para recuperar la contraseña. Es válido si `usado = 0`, `intentos < 3` y `fecha_expiracion` todavía no pasa.
