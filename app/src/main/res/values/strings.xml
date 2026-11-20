@@ -1,3 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">MediAgenda</string>
+
+    <string name="regresar">Regresar</string>
+    <string name="cerrar_sesion">Cerrar sesión</string>
+
+    <string name="paso_1">1</string>
+    <string name="paso_2">2</string>
+    <string name="paso_3">3</string>
+    <string name="paso_4">4</string>
+    <string name="paso_datos_personales">Datos personales</string>
+    <string name="paso_contacto">Contacto</string>
+    <string name="paso_historial_medico">Historial médico</string>
+    <string name="paso_cuenta">Cuenta</string>
+    <string name="paso_1_de_4">Paso 1 de 4</string>
+
+    <string name="crear_cuenta">Crear cuenta</string>
+    <string name="datos_personales">Datos personales</string>
+    <string name="datos_personales_subtitulo">Información básica de identificación</string>
+    <string name="nombre_s">Nombre(s)</string>
+    <string name="apellido_s">Apellido(s)</string>
+    <string name="fecha_nacimiento">Fecha de nacimiento</string>
+    <string name="genero">Género</string>
+    <string name="ej_nombre">ej. Ana María</string>
+    <string name="ej_apellido">ej. García</string>
+    <string name="ej_fecha">dd/mm/aaaa</string>
+    <string name="seleccionar">Seleccionar</string>
+    <string name="siguiente">Siguiente</string>
+
+    <string name="paso_2_de_4">Paso 2 de 4</string>
+    <string name="paso_completado">Paso completado</string>
+    <string name="informacion_de_contacto">Información de contacto</string>
+    <string name="contacto_subtitulo">Datos de localización del paciente</string>
+    <string name="telefono">Teléfono</string>
+    <string name="codigo_postal">Código postal</string>
+    <string name="ciudad">Ciudad</string>
+    <string name="estado">Estado</string>
+    <string name="direccion">Dirección</string>
+    <string name="correo_electronico">Correo electrónico</string>
+    <string name="ej_telefono">ej. 7711350881</string>
+    <string name="ej_codigo_postal">ej. 43000</string>
+    <string name="ej_ciudad">ej. Huejutla</string>
+    <string name="ej_estado">ej. Hidalgo</string>
+    <string name="ej_direccion">Calle, número, colonia…</string>
+    <string name="ej_correo">ej. paciente@gmail.com</string>
+    <string name="anterior">Anterior</string>
 </resources>
