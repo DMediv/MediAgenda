@@ -2,4 +2,21 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="azul_primario">#FF005A9C</color>
+    <color name="azul_claro">#FFA7C4F2</color>
+    <color name="azul_navegacion">#FF2B78E4</color>
+    <color name="fondo">#FFF2F2F2</color>
+    <color name="blanco">#FFFFFFFF</color>
+    <color name="negro">#FF000000</color>
+    <color name="texto_secundario">#FF6B6B6B</color>
+    <color name="gris_inactivo">#FF8A8A8A</color>
+    <color name="rojo_alerta">#FFCF2A27</color>
+
+    <color name="estado_programada">#FF9FC5F8</color>
+    <color name="estado_atendida">#FFB6D7A8</color>
+    <color name="estado_cancelada">#FFEA9999</color>
+    <color name="estado_reprogramada">#FFFFE599</color>
+    <color name="especialidad_traumatologia">#FFB4A7D6</color>
+
+    <color name="velo_dialogo">#80000000</color>
 </resources>

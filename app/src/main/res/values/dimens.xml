@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margen_pantalla">16dp</dimen>
+    <dimen name="espacio_tarjetas">12dp</dimen>
+    <dimen name="espacio_campos">16dp</dimen>
+    <dimen name="espacio_secciones">24dp</dimen>
+    <dimen name="relleno_tarjeta">16dp</dimen>
+    <dimen name="alto_barra_superior">56dp</dimen>
+    <dimen name="alto_barra_navegacion">64dp</dimen>
+    <dimen name="alto_boton">48dp</dimen>
+    <dimen name="alto_campo">42dp</dimen>
+    <dimen name="zona_tactil">48dp</dimen>
+    <dimen name="borde">2dp</dimen>
+    <dimen name="sombra_desplazamiento">3dp</dimen>
+
+    <dimen name="radio_tarjeta">4dp</dimen>
+    <dimen name="radio_campo">4dp</dimen>
+    <dimen name="radio_etiqueta">12dp</dimen>
+    <dimen name="radio_buscador">21dp</dimen>
+    <dimen name="radio_indicador_nav">14dp</dimen>
+
+    <dimen name="icono">24dp</dimen>
+    <dimen name="icono_estado">48dp</dimen>
+    <dimen name="icono_nav_activo">20dp</dimen>
+    <dimen name="indicador_nav_ancho">56dp</dimen>
+    <dimen name="indicador_nav_alto">28dp</dimen>
+
+    <dimen name="paso_circulo">40dp</dimen>
+    <dimen name="paso_conector_ancho">16dp</dimen>
+    <dimen name="paso_conector_alto">2dp</dimen>
+    <dimen name="paso_conector_margen_superior">19dp</dimen>
+
+    <dimen name="texto_titulo_panel">24sp</dimen>
+    <dimen name="texto_titulo_barra">20sp</dimen>
+    <dimen name="texto_encabezado">18sp</dimen>
+    <dimen name="texto_cuerpo">16sp</dimen>
+    <dimen name="texto_boton">16sp</dimen>
+    <dimen name="texto_etiqueta">14sp</dimen>
+    <dimen name="texto_secundario">14sp</dimen>
+    <dimen name="texto_nota">12sp</dimen>
+</resources>
