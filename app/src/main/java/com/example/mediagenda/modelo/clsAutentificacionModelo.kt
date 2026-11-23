@@ -2,7 +2,7 @@ package com.example.mediagenda.modelo
 
 import com.example.mediagenda.conexion.retrofitCliente
 
-class clsAutentificaionModelo {
+class clsAutentificaiconModelo {
     suspend fun iniciarSesion(usuario: String, contrasena: String): dataRespuesta<dataSesion> {
         val respuesta = retrofitCliente.api.iniciarSesion(dataLoginPeticion(usuario, contrasena))
         val resultado = retrofitCliente.leerRespuesta(respuesta)
