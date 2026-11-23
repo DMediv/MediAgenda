@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="TextAppearance.MediAgenda" parent="android:TextAppearance">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/negro</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="TextAppearance.MediAgenda.TituloPanel">
+        <item name="android:textSize">@dimen/texto_titulo_panel</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:lineSpacingMultiplier">1.4</item>
+    </style>
+
+    <style name="TextAppearance.MediAgenda.TituloBarra">
+        <item name="android:textSize">@dimen/texto_titulo_barra</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">@color/blanco</item>
+    </style>
+
+    <style name="TextAppearance.MediAgenda.Encabezado">
+        <item name="android:textSize">@dimen/texto_encabezado</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="TextAppearance.MediAgenda.Cuerpo">
+        <item name="android:textSize">@dimen/texto_cuerpo</item>
+        <item name="android:lineSpacingMultiplier">1.4</item>
+    </style>
+
+    <style name="TextAppearance.MediAgenda.Boton">
+        <item name="android:textSize">@dimen/texto_boton</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="TextAppearance.MediAgenda.Etiqueta">
+        <item name="android:textSize">@dimen/texto_etiqueta</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="TextAppearance.MediAgenda.Secundario">
+        <item name="android:textSize">@dimen/texto_secundario</item>
+        <item name="android:textColor">@color/texto_secundario</item>
+        <item name="android:lineSpacingMultiplier">1.4</item>
+    </style>
+
+    <style name="TextAppearance.MediAgenda.Nota">
+        <item name="android:textSize">@dimen/texto_nota</item>
+        <item name="android:lineSpacingMultiplier">1.4</item>
+    </style>
+
+    <style name="Widget.MediAgenda.Boton" parent="android:Widget.Button">
+        <item name="android:minHeight">@dimen/alto_boton</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:paddingStart">24dp</item>
+        <item name="android:paddingEnd">24dp</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">@dimen/texto_boton</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:backgroundTint">@null</item>
+    </style>
+
+    <style name="Widget.MediAgenda.Boton.Primario">
+        <item name="android:background">@drawable/bg_boton_primario</item>
+        <item name="android:textColor">@color/blanco</item>
+    </style>
+
+    <style name="Widget.MediAgenda.Boton.Secundario">
+        <item name="android:background">@drawable/bg_boton_secundario</item>
+        <item name="android:textColor">@color/azul_primario</item>
+    </style>
+
+    <style name="Widget.MediAgenda.Boton.Destructivo">
+        <item name="android:background">@drawable/bg_boton_destructivo</item>
+        <item name="android:textColor">@color/blanco</item>
+    </style>
+
+    <style name="Widget.MediAgenda.Boton.NoDisponible">
+        <item name="android:background">@drawable/bg_boton_no_disponible</item>
+        <item name="android:textColor">@color/gris_inactivo</item>
+        <item name="android:enabled">false</item>
+    </style>
+
+    <style name="Widget.MediAgenda.Campo" parent="android:Widget.EditText">
+        <item name="android:background">@drawable/bg_campo</item>
+        <item name="android:backgroundTint">@null</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/texto_cuerpo</item>
+        <item name="android:textColor">@color/negro</item>
+        <item name="android:textColorHint">@color/texto_secundario</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+    <style name="Widget.MediAgenda.CampoDesplegable">
+        <item name="android:background">@drawable/bg_campo</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">8dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/texto_cuerpo</item>
+        <item name="android:textColor">@color/texto_secundario</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:drawableEnd">@drawable/ic_arrow_drop_down</item>
+        <item name="android:drawableTint">@color/negro</item>
+    </style>
+
+    <style name="Widget.MediAgenda.EtiquetaCampo">
+        <item name="android:textSize">@dimen/texto_etiqueta</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">@color/azul_primario</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+    <style name="Widget.MediAgenda.PasoNumero">
+        <item name="android:textSize">@dimen/texto_cuerpo</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:gravity">center</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="Widget.MediAgenda.PasoNombre">
+        <item name="android:textSize">@dimen/texto_nota</item>
+        <item name="android:textColor">@color/azul_primario</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
+    </style>
+
+</resources>

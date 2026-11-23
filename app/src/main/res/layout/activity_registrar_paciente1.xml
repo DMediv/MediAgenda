@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fondo"
+    tools:context=".vista.activity_registrar_paciente_1">
+
+    <!-- 6.6 Barra superior: 56 dp, #005A9C, flecha de regreso y título en blanco -->
+    <LinearLayout
+        android:id="@+id/barraSuperior"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/alto_barra_superior"
+        android:background="@color/azul_primario"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/margen_pantalla"
+        android:paddingEnd="@dimen/margen_pantalla"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/btnRegresar"
+            android:layout_width="@dimen/zona_tactil"
+            android:layout_height="@dimen/zona_tactil"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/regresar"
+            android:padding="12dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_arrow_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/crear_cuenta"
+            android:textAppearance="@style/TextAppearance.MediAgenda.TituloBarra" />
+
+    </LinearLayout>
+
+    <!-- Contenido con desplazamiento vertical (RNF-17) -->
+    <ScrollView
+        android:id="@+id/scrollContenido"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toTopOf="@id/contenedorAccion"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/barraSuperior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/margen_pantalla"
+            android:paddingTop="@dimen/espacio_secciones"
+            android:paddingEnd="@dimen/margen_pantalla"
+            android:paddingBottom="@dimen/espacio_secciones">
+
+            <!-- 6.4 Indicador de pasos: 4 pasos -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <!-- Paso 1: activo -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/Widget.MediAgenda.PasoNumero"
+                        android:layout_width="@dimen/paso_circulo"
+                        android:layout_height="@dimen/paso_circulo"
+                        android:background="@drawable/bg_paso_activo"
+                        android:text="@string/paso_1"
+                        android:textColor="@color/blanco" />
+
+                    <TextView
+                        style="@style/Widget.MediAgenda.PasoNombre"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/paso_datos_personales" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="@dimen/paso_conector_ancho"
+                    android:layout_height="@dimen/paso_conector_alto"
+                    android:layout_marginTop="@dimen/paso_conector_margen_superior"
+                    android:background="@color/azul_claro" />
+
+                <!-- Paso 2: pendiente -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/Widget.MediAgenda.PasoNumero"
+                        android:layout_width="@dimen/paso_circulo"
+                        android:layout_height="@dimen/paso_circulo"
+                        android:background="@drawable/bg_paso_pendiente"
+                        android:text="@string/paso_2"
+                        android:textColor="@color/negro" />
+
+                    <TextView
+                        style="@style/Widget.MediAgenda.PasoNombre"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/paso_contacto" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="@dimen/paso_conector_ancho"
+                    android:layout_height="@dimen/paso_conector_alto"
+                    android:layout_marginTop="@dimen/paso_conector_margen_superior"
+                    android:background="@color/azul_claro" />
+
+                <!-- Paso 3: pendiente -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/Widget.MediAgenda.PasoNumero"
+                        android:layout_width="@dimen/paso_circulo"
+                        android:layout_height="@dimen/paso_circulo"
+                        android:background="@drawable/bg_paso_pendiente"
+                        android:text="@string/paso_3"
+                        android:textColor="@color/negro" />
+
+                    <TextView
+                        style="@style/Widget.MediAgenda.PasoNombre"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/paso_historial_medico" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="@dimen/paso_conector_ancho"
+                    android:layout_height="@dimen/paso_conector_alto"
+                    android:layout_marginTop="@dimen/paso_conector_margen_superior"
+                    android:background="@color/azul_claro" />
+
+                <!-- Paso 4: pendiente -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/Widget.MediAgenda.PasoNumero"
+                        android:layout_width="@dimen/paso_circulo"
+                        android:layout_height="@dimen/paso_circulo"
+                        android:background="@drawable/bg_paso_pendiente"
+                        android:text="@string/paso_4"
+                        android:textColor="@color/negro" />
+
+                    <TextView
+                        style="@style/Widget.MediAgenda.PasoNombre"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/paso_cuenta" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center_horizontal"
+                android:text="@string/paso_1_de_4"
+                android:textAppearance="@style/TextAppearance.MediAgenda.Nota"
+                android:textColor="@color/texto_secundario" />
+
+            <!-- Encabezado de sección -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espacio_secciones"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/icono"
+                    android:layout_height="@dimen/icono"
+                    android:layout_marginEnd="8dp"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_person" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/datos_personales"
+                        android:textAppearance="@style/TextAppearance.MediAgenda.Encabezado" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="@string/datos_personales_subtitulo"
+                        android:textAppearance="@style/TextAppearance.MediAgenda.Secundario" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- Fila 1: Nombre(s) / Apellido(s) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espacio_campos"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/Widget.MediAgenda.EtiquetaCampo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:text="@string/nombre_s" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/zona_tactil">
+
+                        <EditText
+                            android:id="@+id/etNombre"
+                            style="@style/Widget.MediAgenda.Campo"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/alto_campo"
+                            android:layout_gravity="center_vertical"
+                            android:autofillHints="name"
+                            android:hint="@string/ej_nombre"
+                            android:inputType="textPersonName|textCapWords" />
+
+                    </FrameLayout>
+
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="@dimen/espacio_campos"
+                    android:layout_height="1dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/Widget.MediAgenda.EtiquetaCampo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:text="@string/apellido_s" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/zona_tactil">
+
+                        <EditText
+                            android:id="@+id/etApellido"
+                            style="@style/Widget.MediAgenda.Campo"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/alto_campo"
+                            android:layout_gravity="center_vertical"
+                            android:autofillHints="name"
+                            android:hint="@string/ej_apellido"
+                            android:inputType="textPersonName|textCapWords" />
+
+                    </FrameLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- Fila 2: Fecha de nacimiento / Género -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espacio_campos"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/Widget.MediAgenda.EtiquetaCampo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:text="@string/fecha_nacimiento" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/zona_tactil">
+
+                        <EditText
+                            android:id="@+id/etFechaNacimiento"
+                            style="@style/Widget.MediAgenda.Campo"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/alto_campo"
+                            android:layout_gravity="center_vertical"
+                            android:hint="@string/ej_fecha"
+                            android:inputType="date" />
+
+                    </FrameLayout>
+
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="@dimen/espacio_campos"
+                    android:layout_height="1dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/Widget.MediAgenda.EtiquetaCampo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:text="@string/genero" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/zona_tactil">
+
+                        <TextView
+                            android:id="@+id/spGenero"
+                            style="@style/Widget.MediAgenda.CampoDesplegable"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/alto_campo"
+                            android:layout_gravity="center_vertical"
+                            android:contentDescription="@string/genero"
+                            android:text="@string/seleccionar" />
+
+                    </FrameLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <!-- 6.1 Acción principal: 48 dp, a la derecha, sombra sólida de 3 dp -->
+    <FrameLayout
+        android:id="@+id/contenedorAccion"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/margen_pantalla"
+        android:paddingTop="8dp"
+        android:paddingEnd="@dimen/margen_pantalla"
+        android:paddingBottom="@dimen/margen_pantalla"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/btnSiguiente"
+            style="@style/Widget.MediAgenda.Boton.Primario"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/alto_boton"
+            android:layout_gravity="end"
+            android:minWidth="120dp"
+            android:text="@string/siguiente" />
+
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
